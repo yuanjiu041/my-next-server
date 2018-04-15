@@ -27,9 +27,9 @@
     "koa-router": "^7.2.1",
     "koa-static": "^4.0.2",
     "mongodb": "^3.0.6",
-    "next": "^3.0.6",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1"
+    "next": "^4.2.3",
+    "react": "^16.3.1",
+    "react-dom": "^16.3.1"
   },
   "devDependencies": {
     "babel-plugin-import": "^1.2.1",
