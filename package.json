@@ -1,0 +1,38 @@
+{
+  "name": "myserver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "nodemon": "nodemon --ignore client/.next -w api -w client  -w server server/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yuanjiu041/myserver.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yuanjiu041/myserver/issues"
+  },
+  "homepage": "https://github.com/yuanjiu041/myserver#readme",
+  "dependencies": {
+    "antd": "^3.4.1",
+    "axios": "^0.16.2",
+    "babel": "^6.23.0",
+    "koa": "^2.3.0",
+    "koa-body": "^2.5.0",
+    "koa-router": "^7.2.1",
+    "koa-static": "^4.0.2",
+    "mongodb": "^3.0.6",
+    "next": "^3.0.6",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
+  },
+  "devDependencies": {
+    "babel-plugin-import": "^1.2.1",
+    "nodemon": "^1.11.0"
+  }
+}
