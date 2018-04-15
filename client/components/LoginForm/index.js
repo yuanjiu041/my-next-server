@@ -20,7 +20,9 @@ class LoginForm extends React.Component {
           message.error(res.message)
         } else {
           message.success(res.message)
-          Router.push(url)
+          // 使用window，重新请求页面，使得页面中带入CUSTOMER的信息
+          // 无URL则进入首页
+          window.location = !url || url === 'undefined' ? '/' : url
         }       
       }).catch(err => {
         message.error('未知错误')
@@ -31,7 +33,13 @@ class LoginForm extends React.Component {
   render () {
     const { getFieldDecorator } = this.props.form
 
-    return <Form className="login-form">
+    return <Form className="login-form" style={{
+      width: 300,
+      border: 'solid 1px #eee',
+      padding: '24px 32px',
+      borderRadius: 12,
+      boxShadow: '2px 2px 2px #eee'
+    }}>
       <FormItem>
         {
           getFieldDecorator('username', {
@@ -50,7 +58,7 @@ class LoginForm extends React.Component {
           )
         }
       </FormItem>
-      <Button type='primary' onClick={this.handleForm}>登陆</Button>
+      <Button style={{width: '100%'}} type='primary' onClick={this.handleForm}>登陆</Button>
     </Form>
   }
 }

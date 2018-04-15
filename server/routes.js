@@ -16,15 +16,15 @@ module.exports = (app) => {
 		})
 	})
 	
-	/*router.get('/users', (ctx) => {
+	/* router.get('/users', (ctx) => {
 		console.log('ssss')
 		ctx.body = 'sss'
-	})*/
+	})
 
 	router.get('/', async (ctx) => {
 		await app.render(ctx.req, ctx.res, '/')
 		ctx.respond = false
-	})
+	}) */
 
 	router.get('/login', async (ctx) => {
 		const { redirectUrl } = ctx.request.query

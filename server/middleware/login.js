@@ -25,9 +25,17 @@ const loginMidWare = (opts) => async (ctx, next) => {
   // 检验token对应的用户
   if (token) {
     const users = await loginService.getUsers({'token.value': token})
-    if (users) {
-      ctx.req.customer = users[0]
-      return await next()
+    if (users.length) {
+      const user = users[0]
+      if (user.token && user.token.time > Date.now()) {
+        ctx.req.customer = user
+        const newTime = Date.now() + 30 * 60 * 1000
+        ctx.cookies.set('yx-token', token, {
+          axAge: 30 * 60 *1000
+        })
+        await loginService.updateUser(user, {'token.time': newTime})
+        return await next()
+      }
     }
   }
 

@@ -1,20 +1,22 @@
 import React from 'react'
 import fetch from '../fetch'
+import Layout from '../components/Layout'
 import { Input } from 'antd'
 
 export default class extends React.Component {
 	static async getInitialProps (ctx) {
-		const customer = ctx.req && ctx.req.customer
+		const customer = ctx.req ? ctx.req.customer : __CUSTOMER__
 		return {
-			name:'yuanjiu',
 			customer
 		}
 	}
+	
 	render () {
-		const { customer } = this.props
+		const { customer, url } = this.props
 		return (
-			<div>hello, {customer.nickname || customer.username}!</div>
+			<Layout url={url} customer={customer}>	
+				<div>hello, {customer.nickname || customer.username}!</div>
+			</Layout>
 		)
 	}
 }
-  

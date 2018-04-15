@@ -12,6 +12,22 @@ const connectDB = (url = mongoUrl) => {
   })
 }
 
+const formatInsertData = (opts) => {
+  return {
+    ...opts,
+    createdTime: Date.now()
+  }
+}
+
+const formatUpdateData = (opts) => {
+  return {
+    ...opts,
+    updateTime: Date.now()
+  }
+}
+
 module.exports = {
-  connectDB
+  connectDB,
+  formatUpdateData,
+  formatInsertData
 }

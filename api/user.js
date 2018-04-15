@@ -22,7 +22,7 @@ const userLogin = async (ctx) => {
     }
   } else {
     ctx.cookies.set('yx-token', rlt.value, {
-      expires: new Date(rlt.time)
+      maxAge: 30 * 60 *1000
     })
     ctx.body = {
       code: 0,

@@ -1,6 +1,7 @@
 // 连接mongoDB获取数据，通过promise的形势来封装
 
-const connectDB = require('./util.js').connectDB
+const util = require('./util.js')
+const { connectDB, formatInsertData, formatUpdateData } = util
 
 // 根据username获取一个用户
 const getUsers = async (opts) => {
@@ -28,7 +29,7 @@ const insertUser = async (user) => {
 
   const db = await connectDB().catch((err) => {throw err})
   return new Promise((resolve, reject) => {
-    db.db('test').collection('login').insertOne(user, (err, rlt) => {
+    db.db('test').collection('login').insertOne(formatInsertData(user), (err, rlt) => {
       if (err)
         reject(err)
       db.close()
@@ -41,7 +42,7 @@ const insertUser = async (user) => {
 const updateUser = async (whereOpts, updateOpts) => {
   const db = await connectDB().catch((err) => {throw err})
   return new Promise((resolve, reject) => { 
-    db.db('test').collection('login').updateOne(whereOpts, {$set: updateOpts}, (err, rlt) => {
+    db.db('test').collection('login').updateOne(whereOpts, {$set: formatUpdateData(updateOpts)}, (err, rlt) => {
       if (err)
         reject(err)
       db.close()
