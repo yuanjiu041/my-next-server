@@ -15,8 +15,9 @@ const app = next({
 
 app.prepare().then(() => {
 	const server = new koa()
-	// 解析POST请求，将请求体放到ctx.request.body中
 	server.use(errorMidWare())
+
+	// 解析POST请求，将请求体放到ctx.request.body中
 	server.use(koaBody())
 	server.use(koaStatic(path.join(__dirname, '../static')))
 	server.use(loginMidWare())

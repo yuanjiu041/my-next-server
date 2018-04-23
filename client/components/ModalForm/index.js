@@ -1,10 +1,20 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Form, Modal, Input, Select, Button, notification } from 'antd'
 
 const FormItem = Form.Item
 const Option = Select.Option
 
 class ModalForm extends React.Component {
+  static propTypes = {
+    title: PropTypes.string,
+    formConfig: PropTypes.array,
+    onSubmit: PropTypes.func,
+    onCancel: PropTypes.func,
+    modalVisible: PropTypes.bool,
+    defaultValue: PropTypes.object
+  }
+
   state = {
     btnLoading: false
   }
@@ -97,6 +107,12 @@ class ModalForm extends React.Component {
         }
       </Modal>
     )
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (this.props.modalVisible !== nextProps.modalVisible && nextProps.modalVisible) {
+      this.props.form.setFieldsValue(nextProps.defaultValue)
+    }
   }
 }
 

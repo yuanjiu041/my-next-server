@@ -25,8 +25,8 @@ const insertUser = async (user) => {
   if (!username || !password) {
     throw 'username and password is required'
   }
-  const matchRlt = await getUsers({ username })
-  if (matchRlt.length) {
+  const rlt = await getUsers({ username })
+  if (rlt.count) {
     throw 'username is existence'
   }
 

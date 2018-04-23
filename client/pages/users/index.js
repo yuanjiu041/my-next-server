@@ -17,7 +17,8 @@ export default class extends React.Component {
   }
 
   state = {
-    modalVisible: false
+    modalVisible: false,
+    modalDefaultValue: {}
   }
 
   onModalSubmit = async (values, cb) => {
@@ -41,7 +42,7 @@ export default class extends React.Component {
 
   render () {
     const { customer, url, users } = this.props
-    const { modalVisible } = this.state
+    const { modalVisible, modalDefaultValue } = this.state
 
     const formConfig = [
       {
@@ -99,6 +100,12 @@ export default class extends React.Component {
         title: '操作',
         render: (value, record) =>
           <div>
+            {/*<Button onClick={() => {
+              this.setState({
+                modalVisible: true,
+                modalDefaultValue: record
+              })
+            }}>修改</Button>*/}
             <Popconfirm 
               title='你确定要删除这条记录么，记录一旦被删除则无法恢复'
               okText='删除'
@@ -139,6 +146,7 @@ export default class extends React.Component {
           modalVisible={modalVisible}
           formConfig={formConfig}
           onSubmit={this.onModalSubmit}
+          defaultValue={modalDefaultValue}
           onCancel={() => {
             this.setState({
               modalVisible: false
