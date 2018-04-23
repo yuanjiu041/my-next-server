@@ -27,7 +27,7 @@ export default class extends React.Component {
               <MenuItem key='/users'><Link href='/users'><a>用户管理</a></Link></MenuItem>
             </Menu>
           </Sider>
-          <Content style={{padding: 30}}>{this.props.children}</Content>
+          <Content style={{padding: 30, backgroundColor: '#fff'}}>{this.props.children}</Content>
         </Layout>
       </Layout>
     )

@@ -1,17 +1,5 @@
 const loginMid = require('../server/middleware/login')
-const loginService = require('../database/login')
-
-const getUsers = async (ctx) => {
-	ctx.body = await loginService.getUserByUsername({username: '10000'})
-} 
-getUsers.method = 'get'
-getUsers.route = 'users'
-
-const getUserById = async (ctx) => {
-	ctx.body = `it's user from id ${ctx.params.id}`
-}
-getUserById.method = 'get'
-getUserById.route = 'user/:id'
+// const loginService = require('../database/users')
 
 const userLogin = async (ctx) => {
   const rlt = await loginMid.checkUser(ctx)
@@ -33,9 +21,6 @@ const userLogin = async (ctx) => {
 userLogin.method = 'post'
 userLogin.route = 'login'
 
-
 module.exports = {
-	getUsers,
-	getUserById,
   userLogin
 }

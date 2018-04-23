@@ -1,5 +1,7 @@
 import axios from 'axios'
 
+const apiPrefix = '/yx/api'
+
 const fetch = (ctx, api, options = {}) => {
   if (typeof ctx === 'string') {
     options = api || {}
@@ -7,10 +9,19 @@ const fetch = (ctx, api, options = {}) => {
     ctx = null
   }
 
-  options.url = `http://localhost:3000/yx/api/${api}`
-  return axios(options).then(res => res.data).catch((err) => {
-    console.log(err)
-  })
+  if (typeof window === 'undefined') {
+    options.url = `http://localhost:3000${apiPrefix}/${api}`
+
+    if (ctx) {
+      options.headers = {
+        cookie: ctx.req.headers.cookie
+      }
+    }
+  } else {
+    options.url = `${apiPrefix}/${api}`
+  }
+
+  return axios(options).then(res => res.data)
 }
 
 const simpleMethods = ['get', 'delete', 'head', 'options']

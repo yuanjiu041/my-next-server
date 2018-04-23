@@ -4,6 +4,7 @@ const koaBody = require('koa-body')
 const next = require('next')
 const koaStatic = require('koa-static')
 const myRouter = require('./routes.js')
+const errorMidWare = require('./middleware/error')
 const loginMidWare = require('./middleware/login').loginMidWare
 const env = process.env.NODE_ENV || 'development'
 
@@ -15,6 +16,7 @@ const app = next({
 app.prepare().then(() => {
 	const server = new koa()
 	// 解析POST请求，将请求体放到ctx.request.body中
+	server.use(errorMidWare())
 	server.use(koaBody())
 	server.use(koaStatic(path.join(__dirname, '../static')))
 	server.use(loginMidWare())
