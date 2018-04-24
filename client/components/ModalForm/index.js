@@ -46,13 +46,11 @@ class ModalForm extends React.Component {
           this.setState({
             btnLoading: false
           })
-          resetFields()
         })
       } else {
         this.setState({
           btnLoading: false
         })
-        resetFields()
       }
     })
   }
@@ -111,7 +109,9 @@ class ModalForm extends React.Component {
 
   componentWillReceiveProps (nextProps) {
     if (this.props.modalVisible !== nextProps.modalVisible && nextProps.modalVisible) {
-      this.props.form.setFieldsValue(nextProps.defaultValue)
+      const { form } = this.props
+      form.resetFields()
+      form.setFieldsValue(nextProps.defaultValue)
     }
   }
 }

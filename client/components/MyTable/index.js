@@ -1,8 +1,17 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import fetch from '../../fetch'
 import { Table } from 'antd'
 
 export default class extends React.Component {
+  static propTypes = {
+    columns: PropTypes.array,
+    data: PropTypes.object,
+    dataApi: PropTypes.string,
+    rowKey: PropTypes.func,
+    header: PropTypes.element
+  }
+
   constructor (props) {
     super()
     this.state = {

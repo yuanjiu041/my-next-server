@@ -18,14 +18,21 @@ export default class extends React.Component {
 
   state = {
     modalVisible: false,
-    modalDefaultValue: {}
+    modalDefaultValue: {},
+    editId: -1
   }
 
   onModalSubmit = async (values, cb) => {
-    fetch.post('user', values)
+    const { editId } = this.state
+    const method = editId === -1 ? 'post' : 'patch'
+    const route = editId === -1 ? 'user' : `user/${editId}`
+
+    fetch[method](route, values)
       .then((value) => {
         this.setState({
-          modalVisible: false
+          modalVisible: false,
+          editId: -1,
+          modalDefaultValue: {}
         })
 
         cb()
@@ -42,7 +49,7 @@ export default class extends React.Component {
 
   render () {
     const { customer, url, users } = this.props
-    const { modalVisible, modalDefaultValue } = this.state
+    const { modalVisible, modalDefaultValue, editId } = this.state
 
     const formConfig = [
       {
@@ -100,12 +107,16 @@ export default class extends React.Component {
         title: '操作',
         render: (value, record) =>
           <div>
-            {/*<Button onClick={() => {
-              this.setState({
-                modalVisible: true,
-                modalDefaultValue: record
-              })
-            }}>修改</Button>*/}
+            <Button
+              style={{marginRight: 10}}
+              onClick={() => {
+                this.setState({
+                  modalVisible: true,
+                  modalDefaultValue: record,
+                  editId: record._id
+                })
+              }}
+            >修改</Button>
             <Popconfirm 
               title='你确定要删除这条记录么，记录一旦被删除则无法恢复'
               okText='删除'
@@ -142,14 +153,15 @@ export default class extends React.Component {
           }
         />
         <ModalForm
-          title='添加用户'
+          title={'添加用户'}
           modalVisible={modalVisible}
           formConfig={formConfig}
           onSubmit={this.onModalSubmit}
           defaultValue={modalDefaultValue}
           onCancel={() => {
             this.setState({
-              modalVisible: false
+              modalVisible: false,
+              modalDefaultValue: {}
             })
           }}
         />

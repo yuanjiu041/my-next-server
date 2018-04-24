@@ -20,6 +20,20 @@ const createUser = async (ctx) => {
 createUser.method = 'post'
 createUser.route = 'user'
 
+const editUser = async (ctx) => {
+  const { id } = ctx.params
+  const rlt = await usersService.updateUser({
+    _id: id
+  }, ctx.request.body)
+  ctx.body = {
+    code: 0,
+    message: '修改成功'
+  }
+}
+
+editUser.method = 'patch'
+editUser.route = 'user/:id'
+
 const deleteUser = async (ctx) => {
   const { id } = ctx.params
   const rlt = await usersService.removeUser({_id: id})
@@ -35,5 +49,6 @@ deleteUser.route = 'user/:id'
 module.exports = {
   queryUsers,
   createUser,
+  editUser,
   deleteUser
 }

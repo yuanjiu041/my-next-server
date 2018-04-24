@@ -1,10 +1,16 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Link from 'next/link'
 import { Layout, Menu } from 'antd'
 
 const MenuItem = Menu.Item
 const { Header, Sider, Content } = Layout
 export default class extends React.Component {
+  static propTypes = {
+    url: PropTypes.object,
+    customer: PropTypes.object
+  }
+
   render () {
     const { url, customer } = this.props
 

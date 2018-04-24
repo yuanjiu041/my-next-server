@@ -1,10 +1,15 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Router from 'next/router'
 import fetch from '../../fetch'
 import { Form, Icon, Input, Button, notification, message } from 'antd'
 
 const FormItem = Form.Item 
 class LoginForm extends React.Component {
+  static propTypes = {
+    url: PropTypes.string
+  }
+
   handleForm = () => {
     const { url, form } = this.props
     const { validateFields } = form
