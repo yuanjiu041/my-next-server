@@ -19,7 +19,7 @@ const loginMidWare = (opts) => async (ctx, next) => {
   const token = ctx.cookies.get('yx-token')
 
   // login登陆页面和next生成的js文件，绕过检测
-  if (/(\/login$|\/_next\/|\/static\/)/.test(ctx.path))
+  if (/(\/logout$|\/login$|\/_next\/|\/static\/)/.test(ctx.path))
     return await next()
 
   // 检验token对应的用户
@@ -31,7 +31,7 @@ const loginMidWare = (opts) => async (ctx, next) => {
         ctx.req.customer = user
         const newTime = Date.now() + 30 * 60 * 1000
         ctx.cookies.set('yx-token', token, {
-          axAge: 30 * 60 *1000
+          maxAge: 30 * 60 *1000
         })
         await Promise.all([
           loginService.updateUser(user, {'token.time': newTime}),

@@ -18,7 +18,7 @@ export default class extends React.Component {
       <Layout style={{minHeight: '100vh'}}>
         <Header>
           <span style={{color: '#fff', fontSize: 20, marginLeft: -10}}>next</span>
-          <span style={{float: 'right', color: '#fff'}}>欢迎您，{customer.nickname || customer.username}</span>
+          <span style={{float: 'right', color: '#fff'}}>欢迎您，{customer.nickname || customer.username}。<a href='/logout'>登出</a></span>
         </Header>
         <Layout>
           <Sider width={200} style={{

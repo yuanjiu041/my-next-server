@@ -15,16 +15,6 @@ module.exports = (app) => {
 			router[api.method](`${apiPrefix}/${api.route}`, api)
 		})
 	})
-	
-	/* router.get('/users', (ctx) => {
-		console.log('ssss')
-		ctx.body = 'sss'
-	})
-
-	router.get('/', async (ctx) => {
-		await app.render(ctx.req, ctx.res, '/')
-		ctx.respond = false
-	}) */
 
 	router.get('/login', async (ctx) => {
 		const { redirectUrl } = ctx.request.query
@@ -34,6 +24,15 @@ module.exports = (app) => {
 		ctx.respond = false
 	})
 
+	// 登出
+	router.get('/logout', async (ctx) => {
+		// 设置maxAge使得cookie过期
+		ctx.cookies.set('yx-token', '', {
+			maxAge: 0
+		})
+		// 重定向到登陆页面
+		ctx.redirect('/login')
+	})
 
 	// 无此项next相关的js文件无法正常加载
 	router.all('*', async (ctx) => {

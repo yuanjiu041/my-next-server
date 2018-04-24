@@ -10,7 +10,18 @@ class LoginForm extends React.Component {
     url: PropTypes.string
   }
 
+  state = {
+    loading: false
+  }
+
   handleForm = () => {
+    const { loading } = this.state
+    // 禁止重复提交请求
+    if (loading)
+      return
+
+    this.setState({ loading: true })
+
     const { url, form } = this.props
     const { validateFields } = form
     validateFields((err, values) => {
@@ -21,6 +32,7 @@ class LoginForm extends React.Component {
         })
 
       fetch.post('login', values).then(res => {
+        this.setState({ loading: false })
         if (res.code) {
           message.error(res.message)
         } else {
@@ -30,6 +42,7 @@ class LoginForm extends React.Component {
           window.location = !url || url === 'undefined' ? '/' : url
         }       
       }).catch(err => {
+        this.setState({ loading: false })
         message.error('未知错误')
       })
     })
@@ -37,6 +50,7 @@ class LoginForm extends React.Component {
 
   render () {
     const { getFieldDecorator } = this.props.form
+    const { loading } = this.state
 
     return <Form className="login-form" style={{
       width: 300,
@@ -63,7 +77,7 @@ class LoginForm extends React.Component {
           )
         }
       </FormItem>
-      <Button style={{width: '100%'}} type='primary' onClick={this.handleForm}>登陆</Button>
+      <Button loading={loading} style={{width: '100%'}} type='primary' onClick={this.handleForm}>{loading ? '' : '登陆'}</Button>
     </Form>
   }
 }
