@@ -153,7 +153,7 @@ export default class extends React.Component {
           }
         />
         <ModalForm
-          title={'添加用户'}
+          title={editId === -1 ? '添加用户' : '修改用户'}
           modalVisible={modalVisible}
           formConfig={formConfig}
           onSubmit={this.onModalSubmit}
