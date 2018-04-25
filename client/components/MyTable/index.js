@@ -11,7 +11,7 @@ export default class extends React.Component {
     dataApi: PropTypes.string,
     rowKey: PropTypes.func,
     header: PropTypes.element,
-    diycolumn: PropTypes.bool,
+    diycolumn: PropTypes.bool
   }
 
   constructor (props) {

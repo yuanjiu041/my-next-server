@@ -47,8 +47,8 @@ const loginMidWare = (opts) => {
     }
    
     if (/\/api\//.test(ctx.path)) {
-      // 如果是请求数据的接口，则不返回任何数据
-      return ctx.body = {}
+      // 如果是请求数据的接口，抛出异常
+      throw '您没有权限，请检查是否登陆。'
     } else {
       // 页面接口重定向到login页面
       ctx.redirect(`/login?redirectUrl=${encodeURIComponent(ctx.request.URL.href)}`)
