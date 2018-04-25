@@ -15,40 +15,45 @@ const checkUser = async (ctx) => {
   return false
 }
 
-const loginMidWare = (opts) => async (ctx, next) => {
-  const token = ctx.cookies.get('yx-token')
+const loginMidWare = (opts) => {
+  // 不检测的路由，正则
+  const { exclude } = opts
 
-  // login登陆页面和next生成的js文件，绕过检测
-  if (/(\/logout$|\/login$|\/_next\/|\/static\/)/.test(ctx.path))
-    return await next()
+  return async (ctx, next) => {
+    const token = ctx.cookies.get('yx-token')
 
-  // 检验token对应的用户
-  if (token) {
-    const rlt = await loginService.getUsers({'token.value': token})
-    if (rlt.count) {
-      const user = rlt.data[0]
-      if (user.token && user.token.time > Date.now()) {
-        ctx.req.customer = user
-        const newTime = Date.now() + 30 * 60 * 1000
-        ctx.cookies.set('yx-token', token, {
-          maxAge: 30 * 60 *1000
-        })
-        await Promise.all([
-          loginService.updateUser(user, {'token.time': newTime}),
-          next()
-        ])
-        return
+    // login登陆页面和next生成的js文件，绕过检测
+    if (exclude.test(ctx.path))
+      return await next()
+
+    // 检验token对应的用户
+    if (token) {
+      const rlt = await loginService.getUsers({'token.value': token})
+      if (rlt.count) {
+        const user = rlt.data[0]
+        if (user.token && user.token.time > Date.now()) {
+          ctx.req.customer = user
+          const newTime = Date.now() + 30 * 60 * 1000
+          ctx.cookies.set('yx-token', token, {
+            maxAge: 30 * 60 *1000
+          })
+          await Promise.all([
+            loginService.updateUser(user, {'token.time': newTime}),
+            next()
+          ])
+          return
+        }
       }
     }
+   
+    if (/\/api\//.test(ctx.path)) {
+      // 如果是请求数据的接口，则不返回任何数据
+      return ctx.body = {}
+    } else {
+      // 页面接口重定向到login页面
+      ctx.redirect(`/login?redirectUrl=${encodeURIComponent(ctx.request.URL.href)}`)
+    }
   }
- 
-  if (/\/api\//.test(ctx.path)) {
-    // 如果是请求数据的接口，则不返回任何数据
-    return ctx.body = {}
-  } else {
-    // 页面接口重定向到login页面
-    ctx.redirect(`/login?redirectUrl=${encodeURIComponent(ctx.request.URL.href)}`)
-  } 
 }
 
 module.exports = {

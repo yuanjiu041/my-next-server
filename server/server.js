@@ -15,12 +15,18 @@ const app = next({
 
 app.prepare().then(() => {
 	const server = new koa()
+
+	// 统一处理错误
 	server.use(errorMidWare())
+
+	server.use(koaStatic(path.join(__dirname, '../static')))
+	server.use(loginMidWare({
+		exclude: /(\/logout$|\/login$|\/_next\/|\/static\/)/
+	}))
 
 	// 解析POST请求，将请求体放到ctx.request.body中
 	server.use(koaBody())
-	server.use(koaStatic(path.join(__dirname, '../static')))
-	server.use(loginMidWare())
+
 	const router = myRouter(app)
 	server.use( async (ctx, next) => {
 		const starttime = new Date().getTime()

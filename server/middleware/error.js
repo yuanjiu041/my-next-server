@@ -1,21 +1,29 @@
-module.exports = () => async (ctx, next) => {
-  try {
-    await next()
-  } catch (err) {
-    let {
-      status = 404,
-      code = 9000,
-      message = '发生了未知的错误'
-    } = err
+module.exports = (opts = {}) => {
+  const { 
+    defaultStatus = 404,
+    defaultCode = 9000,
+    defaultMessage = '发生了未知错误'
+  } = opts
 
-    if (typeof err === 'string') {
-      message = err
-    }
+  return async (ctx, next) => {
+    try {
+      await next()
+    } catch (err) {
+      let {
+        status = defaultStatus,
+        code = defaultCode,
+        message = defaultMessage
+      } = err
 
-    ctx.status = status
-    ctx.body = {
-      code,
-      message
+      if (typeof err === 'string') {
+        message = err
+      }
+
+      ctx.status = status
+      ctx.body = {
+        code,
+        message
+      }
     }
   }
 }

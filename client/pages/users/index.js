@@ -139,6 +139,7 @@ export default class extends React.Component {
     return (
       <Layout url={url} customer={customer}>
         <MyTable
+          diycolumn
           data={users}
           columns={columns}
           dataApi={'users/query'}
