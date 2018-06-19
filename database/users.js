@@ -1,10 +1,10 @@
 // 连接mongoDB获取数据，通过promise的形势来封装
 
 const util = require('./util.js')
-const { connectDB, formatInsertData, formatUpdateData, formatId } = util
+const { connectDB, formatInsertData, formatUpdateData, formatId, logPrint } = util
 
 // 根据username获取一个用户
-const getUsers = async (opts = {}, skip = 0, limit = 10) => {
+const getUsers = logPrint(async (opts = {}, skip = 0, limit = 10) => {
   const db = await connectDB().catch((err) => { throw err })
   return new Promise((resolve, reject) => {
     Promise.all([
@@ -17,10 +17,10 @@ const getUsers = async (opts = {}, skip = 0, limit = 10) => {
       throw '查询数据库失败'
     })
   })
-}
+})
 
 // 插入一个用户
-const insertUser = async (user) => {
+const insertUser = logPrint(async (user) => {
   const { username, password } = user
   if (!username || !password) {
     throw 'username and password is required'
@@ -39,10 +39,10 @@ const insertUser = async (user) => {
       return resolve(rlt)
     })
   })
-}
+})
 
 // 更新一个用户
-const updateUser = async (whereOpts, updateOpts) => {
+const updateUser = logPrint(async (whereOpts, updateOpts) => {
   const db = await connectDB().catch((err) => {throw err})
   return new Promise((resolve, reject) => { 
     db.db('test').collection('login').updateOne(formatId(whereOpts), {$set: formatUpdateData(updateOpts)}, (err, rlt) => {
@@ -52,11 +52,11 @@ const updateUser = async (whereOpts, updateOpts) => {
       return resolve(rlt)
     })
   })
-}
+})
 
 // 删除一个用户
 // 通过username，username唯一
-const removeUser = async (opts) => {
+const removeUser = logPrint(async (opts) => {
   const db = await connectDB().catch((err) => {throw err})
   return new Promise((resolve, reject) => {
     db.db('test').collection('login').deleteOne(formatId(opts), (err, rlt) => {
@@ -66,7 +66,7 @@ const removeUser = async (opts) => {
       return resolve(rlt)
     })
   })
-}
+})
 
 module.exports = {
   getUsers,

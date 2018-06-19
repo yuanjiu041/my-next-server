@@ -12,7 +12,7 @@ export default class extends React.Component {
 	}
 	
 	render () {
-		const { customer, url } = this.props
+		const { customer = {}, url } = this.props
 		return (
 			<Layout url={url} customer={customer}>	
 				<div>hello, {customer.nickname || customer.username}!</div>

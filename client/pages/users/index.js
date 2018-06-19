@@ -48,7 +48,7 @@ export default class extends React.Component {
   }
 
   render () {
-    const { customer, url, users } = this.props
+    const { customer = {}, url, users } = this.props
     const { modalVisible, modalDefaultValue, editId } = this.state
 
     const formConfig = [

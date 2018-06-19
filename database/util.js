@@ -36,9 +36,19 @@ const formatId = (opts) => {
   return opts
 }
 
+const logPrint = (cb) => {
+  return async function () {
+    const startTime = Date.now()
+    const rlt = await cb.apply(null, arguments)
+    console.log(`use ${Date.now() - startTime}ms in mongodb`)
+    return rlt
+  }
+}
+
 module.exports = {
   connectDB,
   formatUpdateData,
   formatInsertData,
-  formatId
+  formatId,
+  logPrint
 }
