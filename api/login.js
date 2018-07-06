@@ -1,4 +1,4 @@
-const loginMid = require('../server/middleware/login')
+const loginMid = require('../server/koa/middleware/login')
 // const loginService = require('../database/users')
 
 const userLogin = async (ctx) => {

@@ -1,14 +1,15 @@
 import React from 'react'
-import fetch from '../../fetch'
-import Layout from '../../components/Layout'
-import MyTable from '../../components/MyTable'
-import ModalForm from '../../components/ModalForm'
+import fetch from 'Common/fetch'
+import { withRouter } from 'next/router'
+import Layout from 'Components/Layout'
+import MyTable from 'Components/MyTable'
+import ModalForm from 'Components/ModalForm'
 import { Popover, Button, notification, Popconfirm } from 'antd'
 import moment from 'moment'
 
-export default class extends React.Component {
+class Page extends React.Component {
   static async getInitialProps (ctx) {
-    const customer = ctx.req ? ctx.req.customer : __CUSTOMER__
+    const customer = ctx.req ? ctx.req.customer : __GLOBAL__.__CUSTOMER__
     const users = await fetch.post(ctx, 'users/query', {})
     return {
       customer,
@@ -48,7 +49,7 @@ export default class extends React.Component {
   }
 
   render () {
-    const { customer = {}, url, users } = this.props
+    const { customer = {}, router, users } = this.props
     const { modalVisible, modalDefaultValue, editId } = this.state
 
     const formConfig = [
@@ -137,7 +138,7 @@ export default class extends React.Component {
     ]
 
     return (
-      <Layout url={url} customer={customer}>
+      <Layout url={router} customer={customer}>
         <MyTable
           diycolumn
           data={users}
@@ -170,3 +171,5 @@ export default class extends React.Component {
     )
   }
 }
+
+export default withRouter(Page)

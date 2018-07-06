@@ -1,4 +1,4 @@
-const loginService = require('../../database/users')
+const loginService = require('../../../database/users')
 
 // 登陆调用，确认用户身份并且生成一个新的token
 const checkUser = async (ctx) => {
@@ -32,7 +32,11 @@ const loginMidWare = (opts) => {
       if (rlt.count) {
         const user = rlt.data[0]
         if (user.token && user.token.time > Date.now()) {
-          ctx.req.customer = user
+          const { nickname, username } = user
+          ctx.req.customer = {
+            nickname,
+            username
+          }
           const newTime = Date.now() + 30 * 60 * 1000
           ctx.cookies.set('yx-token', token, {
             maxAge: 30 * 60 *1000
