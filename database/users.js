@@ -4,15 +4,26 @@ const util = require('./util.js')
 const { connectDB, formatInsertData, formatUpdateData, formatId, logPrint } = util
 
 // 根据username获取一个用户
-const getUsers = logPrint(async (opts = {}, skip = 0, limit = 10) => {
+const getUsers = logPrint(async (opts = {}, skip = 0, limit = 10, keys) => {
   const db = await connectDB().catch((err) => { throw err })
   return new Promise((resolve, reject) => {
     Promise.all([
       db.db('test').collection('login').find(formatId(opts)).skip(skip).limit(limit).toArray(),
       db.db('test').collection('login').find(formatId(opts)).count()
     ]).then(value => {
-      const [data, count] = value
-      resolve({ skip, limit, count, data })
+      const [ data, count ] = value
+      resolve({
+        skip,
+        limit,
+        count,
+        data: keys ? data.map(item => {
+          let rlt = {}
+          keys.forEach(key => {
+            rlt[key] = item[key]
+          })
+          return rlt
+        }) : data
+      })
     }).catch(err => {
       throw '查询数据库失败'
     })

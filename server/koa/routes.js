@@ -1,12 +1,12 @@
 const Router = require('koa-router')
 const glob = require('glob')
 const path = require('path')
-const apiPrefix = require('../config/common').apiPrefix
+const apiPrefix = require('../../config/common').apiPrefix
 
 module.exports = (app) => {
 	const router = new Router()
 	const handle = app.getRequestHandler()
-	const apidir = path.join(__dirname, '../api')
+	const apidir = path.join(__dirname, '../../api')
 
 	glob.sync('*.js', { cwd: apidir }).forEach((apipath) => {
 		apipath = apipath.replace(/(\/?index)?.js$/, '')

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import fetch from '../../fetch'
-import CheckGroup from '../CheckGroup'
+import fetch from 'Common/fetch'
+import CheckGroup from 'Components/CheckGroup'
 import { Table, Button, Dropdown } from 'antd'
 
 export default class extends React.Component {

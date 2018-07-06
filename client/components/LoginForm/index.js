@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Router from 'next/router'
-import fetch from '../../fetch'
+import fetch from 'Common/fetch'
 import { Form, Icon, Input, Button, notification, message } from 'antd'
 
 const FormItem = Form.Item 

@@ -11,7 +11,10 @@ export default class extends Document {
       errorHtml,
       chunks,
 
-      customer: ctx.req ? JSON.stringify(ctx.req.customer) : null
+      customer: ctx.req ? JSON.stringify({
+        __IP__: ctx.req.ip,
+        __CUSTOMER__: ctx.req.customer
+      }) : null
     }
   }
 
@@ -20,9 +23,10 @@ export default class extends Document {
 			<html>
         <Head>
           <title>my next</title>
+          <link rel="stylesheet" href="/_next/static/style.css" />
           <link rel='stylesheet' href='./static/antd.min.css' />
           {
-            this.props.customer ? <script dangerouslySetInnerHTML={{__html: `__CUSTOMER__=${this.props.customer}`}} /> : null
+            this.props.customer ? <script dangerouslySetInnerHTML={{__html: `__GLOBAL__=${this.props.customer}`}} /> : null
           }
         </Head>
         <body>
