@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import createWs from 'Common/wsUtil'
+import style from './style.less'
 
 export default class extends Component {
   state = {
@@ -11,7 +12,8 @@ export default class extends Component {
     const { className } = this.props
 
     const cls = [
-      className
+      className,
+      style['block']
     ]
 
     return (
@@ -36,6 +38,6 @@ export default class extends Component {
     })
 
     // 发送空消息，获取好友列表
-    setTimeout(() => this.ws.send(''), 100)
+    setTimeout(() => this.ws.send(''), 1000)
   }
 }

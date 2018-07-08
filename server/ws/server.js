@@ -42,6 +42,7 @@ function wsServerCreater (options) {
       // 移除在线用户
       onlineUser.splice(onlineUser.indexOf(userId), 1)
       undateOnlineUser(onlineUser, wss)
+      console.log('ws close')
     })
   })
 
