@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Input, Button, Col } from 'antd'
+import { Input, Button, Col, notification } from 'antd'
 
 import createWs from 'Common/wsUtil'
 import ChatItem from 'Components/ChatItem'
@@ -16,6 +16,12 @@ export default class extends Component {
   sendMsg = (msg) => {
     const { ws } = this
     const { nickname, username } = this.props.customer
+    if (msg.trim() === '') {
+      return notification.warn({
+        message: '发送失败',
+        description: '发送内容不能为空！'
+      })
+    }
     if (ws) {
       const obj = {
         nickname: nickname || username,
@@ -25,7 +31,7 @@ export default class extends Component {
       this.addData({
         ...obj,
         isme: true
-      })
+      }, this.adjustContent)
       ws.send(obj)
     }
   }
@@ -33,7 +39,7 @@ export default class extends Component {
   addData = (data) => {
     this.setState((prevState) => ({
       chatList: prevState.chatList.concat(data)
-    }))
+    }), this.adjustContent)
     this.search.input.input.value = ''
   }
 
@@ -62,7 +68,7 @@ export default class extends Component {
     return (
       <div className={style['chatbox']}>
         <div className={style['flex-left']}>
-          <div className={style['content']}>
+          <div className={style['content']} ref={el => this.content = el}>
           {
             chatList.map(item => <ChatItem key={`${item.user}-${item.time}`} {...item} />)
           }
@@ -76,6 +82,11 @@ export default class extends Component {
         <FriendBox className={style['friend']} ip={ip} customer={customer} />
       </div>
     )
+  }
+
+  adjustContent () {
+    const { offsetHeight, scrollHeight } = this.content
+    this.content.scrollTop = scrollHeight - offsetHeight
   }
 
   componentDidMount () {

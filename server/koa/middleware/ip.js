@@ -1,7 +1,8 @@
 const os = require('os')
+const { serverIp } = require('../../../config/common')
 
 const setIp = () => async (ctx, next) => {
-  ctx.req.ip = os.networkInterfaces().en0.filter(item => item.family === 'IPv4')[0].address
+  ctx.req.ip = serverIp
   await next()
 }
 
